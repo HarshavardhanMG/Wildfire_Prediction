@@ -1,0 +1,14 @@
+======================================================================
+MODEL: SwinUnet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1111 ± 0.0129
+Individual Fold AP Scores: ['0.1170', '0.0932', '0.1231']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 330
+Predicted Fire Pixels (>0.5): 496
+Average Prediction Confidence: 0.0396
+
+

@@ -1,0 +1,8 @@
+download the dataset from the given link 
+https://www.kaggle.com/datasets/georgehulsey/modified-next-day-wildfire-spread/data
+
+extract the downloaded zip file and paste the dataset in 
+data/raw 
+
+the file structure should look like this 
+\wildfire_pred\data\raw\ndws_western_dataset

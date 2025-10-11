@@ -1,0 +1,14 @@
+======================================================================
+MODEL: TransUNet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1207 ± 0.0061
+Individual Fold AP Scores: ['0.1271', '0.1126', '0.1223']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 118
+Predicted Fire Pixels (>0.5): 321
+Average Prediction Confidence: 0.0206
+
+

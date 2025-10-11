@@ -1,0 +1,14 @@
+======================================================================
+MODEL: Unet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1157 ± 0.0026
+Individual Fold AP Scores: ['0.1187', '0.1124', '0.1161']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 241
+Predicted Fire Pixels (>0.5): 309
+Average Prediction Confidence: 0.0189
+
+
