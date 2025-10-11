@@ -1,0 +1,77 @@
+======================================================================
+MODEL: Attention_Unet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1258 ± 0.0032
+Individual Fold AP Scores: ['0.1321', '0.0974', '0.1271']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 139
+Predicted Fire Pixels (>0.5): 318
+Average Prediction Confidence: 0.0273
+
+======================================================================
+MODEL: SwinUnet_Pretrained
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1124 ± 0.0145
+Individual Fold AP Scores: ['0.1321', '0.0974', '0.1078']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 417
+Predicted Fire Pixels (>0.5): 369
+Average Prediction Confidence: 0.0233
+
+======================================================================
+MODEL: SwinUnet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1111 ± 0.0129
+Individual Fold AP Scores: ['0.1170', '0.0932', '0.1231']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 330
+Predicted Fire Pixels (>0.5): 496
+Average Prediction Confidence: 0.0396
+
+======================================================================
+MODEL: TransUNet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1207 ± 0.0061
+Individual Fold AP Scores: ['0.1271', '0.1126', '0.1223']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 118
+Predicted Fire Pixels (>0.5): 321
+Average Prediction Confidence: 0.0206
+
+======================================================================
+MODEL: Unet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1157 ± 0.0026
+Individual Fold AP Scores: ['0.1187', '0.1124', '0.1161']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 241
+Predicted Fire Pixels (>0.5): 309
+Average Prediction Confidence: 0.0189
+
+======================================================================
+MODEL: Unet++
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1149 ± 0.0029
+Individual Fold AP Scores: ['0.1190', '0.1127', '0.1130']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 469
+Predicted Fire Pixels (>0.5): 323
+Average Prediction Confidence: 0.0232

@@ -1,0 +1,12 @@
+======================================================================
+MODEL: Attention_Unet
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1258 ± 0.0032
+Individual Fold AP Scores: ['0.1321', '0.0974', '0.1271']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 139
+Predicted Fire Pixels (>0.5): 318
+Average Prediction Confidence: 0.0273
