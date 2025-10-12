@@ -1,6 +1,7 @@
 # Wildfire Prediction Model
 
 This project builds a machine learning model to predict wildfire occurrences using the modified Next Day Wildfire Spread dataset.
+video explanation = https://drive.google.com/drive/folders/1QRzTXa_GYou7waC_rEkxHVY6ySUm-j-y?usp=sharing
 
 ## Project Organization
 
