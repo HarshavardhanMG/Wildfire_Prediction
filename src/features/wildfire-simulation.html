@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Wildfire Prediction Prototype</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; width: 100%; }
+    .control-panel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      max-width: 240px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 6px;
+      border: none;
+      border-radius: 6px;
+      background: #0078ff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #005dc1; }
+    #loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      flex-direction: column;
+    }
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 12px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="control-panel">
+  <b>🔥 Wildfire Prediction</b><br>
+  <button onclick="showCurrentFire()">Current Fire</button>
+  <button onclick="ModelLoad()">Next Day Prediction</button>
+</div>
+
+
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <div id="loadingText">Loading wildfire prediction model...</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([36.7783, -119.4179], 12); // Central California
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const fireOrigin = [36.7783, -119.4179];
+  let currentFire;
+  let predictedFire;
+
+  function generateFirePolygon(center, radiusMeters, elongation=1, randomness=0.3) {
+    const numPoints = 12;
+    const points = [];
+    for (let i = 0; i < numPoints; i++) {
+      const angle = (i / numPoints) * 2 * Math.PI;
+      const factor = 0.7 + Math.random() * randomness;
+      const latOffset = (radiusMeters / 111320) * factor * Math.cos(angle) * elongation;
+      const lngOffset = (radiusMeters / (111320 * Math.cos(center[0] * Math.PI / 180))) * factor * Math.sin(angle);
+      points.push([center[0] + latOffset, center[1] + lngOffset]);
+    }
+    return points;
+  }
+
+  function showCurrentFire() {
+    if (currentFire) map.removeLayer(currentFire);
+    if (predictedFire) map.removeLayer(predictedFire);
+
+    const polygon = generateFirePolygon(fireOrigin, 500);
+    currentFire = L.polygon(polygon, {
+      color: "#ff3300",
+      fillColor: "#ff3300",
+      fillOpacity: 0.5
+    }).addTo(map);
+    currentFire.bindPopup("🔥 Current Fire Zone").openPopup();
+    map.flyTo(fireOrigin, 12);
+  }
+
+  showCurrentFire();
+
+  // Fake model loading simulation
+  function ModelLoad() {
+    const overlay = document.getElementById('loadingOverlay');
+    const text = document.getElementById('loadingText');
+    overlay.style.display = 'flex';
+    text.textContent = "Loading wildfire prediction model...";
+
+    // Step 1: simulate model load (2s)
+    setTimeout(() => {
+      text.textContent = "Processing environmental features...";
+    }, 2000);
+
+    // Step 2: simulate prediction (after 3.5s total)
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      predictNextDay();
+    }, 3500);
+  }
+
+  function predictNextDay() {
+    if (predictedFire) map.removeLayer(predictedFire);
+
+    // Features from live API
+    const gust_med = 6.4371;
+    const wind_75 = 4.5351;
+    const humidity = 27.2;
+    const temperature = 24.85;
+    const NDVI = 6516.45;
+    const fireIntensity = 0.272;
+
+    // Simulated model influence
+    let baseRadius = 500;
+    const elongationFactor = 1 + wind_75/10 + (NDVI-6500)/10000;
+    const shrinkFactor = 1 - humidity/250;
+    const tempFactor = 1 + (temperature-25)/50;
+    const intensityFactor = 1 + (fireIntensity-0.27);
+
+    const finalRadius = baseRadius * elongationFactor * shrinkFactor * tempFactor * intensityFactor;
+
+    // Wind-driven spread
+    const windDir = Math.random() * 2 * Math.PI;
+    const latShift = (finalRadius/111320)*0.05*Math.sin(windDir);
+    const lngShift = (finalRadius/(111320*Math.cos(fireOrigin[0]*Math.PI/180)))*0.05*Math.cos(windDir);
+    const newCenter = [fireOrigin[0]+latShift, fireOrigin[1]+lngShift];
+
+    predictedFire = L.polygon(generateFirePolygon(newCenter, finalRadius, elongationFactor, 0.35), {
+      color: "#ff8800",
+      fillColor: "#ff8800",
+      fillOpacity: 0.45
+    }).addTo(map);
+
+    predictedFire.bindPopup(`
+      <b>Predicted Fire (Next Day)</b><br>
+      Gust (median): ${gust_med}<br>
+      Wind 75th: ${wind_75}<br>
+      Humidity: ${humidity}%<br>
+      Temperature: ${temperature}°C<br>
+      NDVI: ${NDVI.toFixed(0)}<br>
+      Fire Intensity: ${fireIntensity.toFixed(3)}
+    `).openPopup();
+
+    map.flyTo(newCenter, 12);
+  }
+</script>
+</body>
+</html>

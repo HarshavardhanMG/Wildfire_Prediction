@@ -1,0 +1,14 @@
+======================================================================
+MODEL: ResUNet_Paper
+======================================================================
+
+--- Cross-Validation Summary ---
+Mean Average Precision (AP): 0.1186 ± 0.0012
+Individual Fold AP Scores: ['0.1186', '0.1171', '0.1200']
+
+--- Visualization Sample Statistics ---
+True Fire Pixels: 193
+Predicted Fire Pixels (>0.5): 210
+Average Prediction Confidence: 0.0140
+
+
